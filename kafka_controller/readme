@@ -1,0 +1,9 @@
+docker build -t ssp_kafka_controller .
+docker run --add-host s001cd-mq-kfk01.dev002.local:172.21.6.8  -it --rm --name ssp_kafka_controller ssp_kafka_controller
+docker run -it ssp_kafka_controller sh
+
+
+kafka/kafka_2.13-3.0.0/bin/kafka-console-producer.sh --bootstrap-server s001cd-mq-kfk01.dev002.local:9092 --topic forecast_model
+http://127.0.0.1:5000/api/forecast_data?source=http&url=http://127.0.0.1:5000/proxy/forecast_data
+http://ssp_integration_service:5000/api/forecast_data?source=http&url=http://127.0.0.1:5000/proxy/forecast_data
+kafka/kafka_2.13-3.0.0/bin/kafka-console-consumer.sh --bootstrap-server s001cd-mq-kfk01.dev002.local:9092 --topic forecast_model_error  --from-beginning
